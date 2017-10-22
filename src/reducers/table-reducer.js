@@ -4,7 +4,10 @@ import {
     ROW_APPENDED,
     ROW_DELETED,
     ROW_MOVED_UP,
-    ROW_MOVED_DOWN
+    ROW_MOVED_DOWN,
+
+    COL_SORTED_UP,
+    COL_SORTED_DOWN
 } from '../actions/types';
 
 const initialState = {
@@ -20,6 +23,7 @@ export default function (state = initialState, action) {
     if (action.props === undefined) return state;
 
     const {i, name, value} = action.props;
+    const propNames = ['name', 'value'];
 
     switch (action.type) {
         case ROW_EDITED:
@@ -69,6 +73,7 @@ export default function (state = initialState, action) {
                     ...state.data.slice(i + 1)
                 ]
             };
+
         case ROW_MOVED_DOWN:
             if (i < 0 || i > state.data.length - 2) return state;
             return {
@@ -78,6 +83,26 @@ export default function (state = initialState, action) {
                     state.data[i + 1],
                     state.data[i],
                     ...state.data.slice(i + 2)
+                ]
+            };
+
+        case COL_SORTED_UP:
+            if (i < 0 || i > propNames.length - 1) return state;
+
+            return {
+                ...state,
+                data: [
+                    ...state.data.sort((a,b) => a[propNames[i]] > b[propNames[i]] ? -1 : 1)
+                ]
+            };
+
+        case COL_SORTED_DOWN:
+            if (i < 0 || i > propNames.length - 1) return state;
+
+            return {
+                ...state,
+                data: [
+                    ...state.data.sort((a, b) => a[propNames[i]] > b[propNames[i]] ? 1 : -1)
                 ]
             };
 

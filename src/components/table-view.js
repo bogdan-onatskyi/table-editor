@@ -16,6 +16,9 @@ class TableView extends Component {
         onDeleteRow: PropTypes.func.isRequired,
         onMoveUpRow: PropTypes.func.isRequired,
         onMoveDownRow: PropTypes.func.isRequired,
+
+        onSortUp: PropTypes.func.isRequired,
+        onSortDown: PropTypes.func.isRequired,
     };
 
     static editRowValues(name = '', value = '') {
@@ -59,10 +62,12 @@ class TableView extends Component {
                         <button className="move-up-button"
                                 onClick={onMoveUpRow.bind(this, {i})}>
                             move up
-                        </button><button className="move-down-button"
+                        </button>
+                        <button className="move-down-button"
                                 onClick={onMoveDownRow.bind(this, {i})}>
                             move down
-                        </button><button className="delete-button"
+                        </button>
+                        <button className="delete-button"
                                 onClick={onDeleteRow.bind(this, {i})}>
                             delete
                         </button>
@@ -73,6 +78,8 @@ class TableView extends Component {
     };
 
     render() {
+        const {onSortUp, onSortDown} = this.props;
+
         return (
             <div>
                 <table>
@@ -80,8 +87,28 @@ class TableView extends Component {
                     <thead>
                     <tr>
                         <th>id</th>
-                        <th>name</th>
-                        <th>value</th>
+                        <th>
+                            <button className="sort-up-button"
+                                    onClick={onSortUp.bind(this, {i: 0})}>
+                                sort up
+                            </button>
+                            <button className="sort-down-button"
+                                    onClick={onSortDown.bind(this, {i: 0})}>
+                                sort down
+                            </button>
+                            name
+                        </th>
+                        <th>
+                            <button className="sort-up-button"
+                                    onClick={onSortUp.bind(this, {i: 1})}>
+                                sort up
+                            </button>
+                            <button className="sort-down-button"
+                                    onClick={onSortDown.bind(this, {i: 1})}>
+                                sort down
+                            </button>
+                            value
+                        </th>
                         <th>actions</th>
                     </tr>
                     </thead>
@@ -120,6 +147,9 @@ function mapDispatchToProps(dispatch) {
         onDeleteRow: bindActionCreators(tableActions.rowDeleted, dispatch),
         onMoveUpRow: bindActionCreators(tableActions.rowMovedUp, dispatch),
         onMoveDownRow: bindActionCreators(tableActions.rowMovedDown, dispatch),
+
+        onSortUp: bindActionCreators(tableActions.colSortedUp, dispatch),
+        onSortDown: bindActionCreators(tableActions.colSortedDown, dispatch),
     };
 }
 
