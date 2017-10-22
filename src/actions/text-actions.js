@@ -1,35 +1,44 @@
-import {
-    TEXT_LOADED_FROM_TABLE,
-    TEXT_SAVED_TO_TABLE,
-    TEXT_EDITED,
-    TEXT_PARSE_FAILED,
-} from './types';
+import * as TYPES from './types';
 
-export function textLoadedFromTable({str}) {
+export function textImportedFromTable(str) {
     return {
-        type: TEXT_LOADED_FROM_TABLE,
-        props: {str}
+        type: TYPES.TEXT_IMPORTED_FROM_TABLE,
+        str
     };
 }
 
-export function textSavedToTable({str}) {
-    // todo fix
+export function textExportedToTable(data) {
     return {
-        type: TEXT_SAVED_TO_TABLE,
-        props: {str}
+        type: TYPES.TEXT_EXPORTED_TO_TABLE,
+        data
+    };
+}
+// todo fix
+export function textImportedFromFile(str) {
+    return {
+        type: TYPES.TEXT_IMPORTED_FROM_FILE,
+        str
     };
 }
 
-export function textEdited({str}) {
+// todo fix
+export function textExportedToFile(str) {
     return {
-        type: TEXT_EDITED,
-        props: {str}
+        type: TYPES.TEXT_EXPORTED_TO_FILE,
+        str
     };
 }
 
-export function textParseFailed({str}) {
+export function textEdited(str) {
     return {
-        type: TEXT_PARSE_FAILED,
-        props: {str}
+        type: TYPES.TEXT_EDITED,
+        str
+    };
+}
+
+export function textParseFailed(str) {
+    return {
+        type: TYPES.TEXT_PARSE_FAILED,
+        str
     };
 }

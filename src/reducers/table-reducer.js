@@ -1,32 +1,24 @@
-import {
-    ROW_EDITED,
-    ROW_INSERTED,
-    ROW_APPENDED,
-    ROW_DELETED,
-    ROW_MOVED_UP,
-    ROW_MOVED_DOWN,
-
-    COL_SORTED_UP,
-    COL_SORTED_DOWN
-} from '../actions/types';
+import * as TYPES from '../actions/types';
 
 const initialState = {
     title: "Заголовок таблицы",
     data: [
         {name: "name1", value: "value1"},
         {name: "name2", value: "value2"},
+        {name: "name3", value: "value3"},
+        {name: "name4", value: "value4"},
+        {name: "name5", value: "value5"},
+        {name: "name6", value: "value6"},
     ]
 };
 
 export default function (state = initialState, action) {
 
-    if (action.props === undefined) return state;
-
-    const {i, name, value} = action.props;
+    const {type, i, name, value} = action;
     const propNames = ['name', 'value'];
 
-    switch (action.type) {
-        case ROW_EDITED:
+    switch (type) {
+        case TYPES.ROW_EDITED:
             if (i < 0 || i > state.data.length - 1) return state;
             return {
                 ...state,
@@ -39,7 +31,7 @@ export default function (state = initialState, action) {
                 })]
             };
 
-        case ROW_INSERTED:
+        case TYPES.ROW_INSERTED:
             if (i < 0 || i > state.data.length) return state;
             return {
                 ...state,
@@ -50,19 +42,19 @@ export default function (state = initialState, action) {
                 ]
             };
 
-        case ROW_APPENDED:
+        case TYPES.ROW_APPENDED:
             return {
                 ...state,
                 data: [...state.data, {name, value}]
             };
 
-        case ROW_DELETED:
+        case TYPES.ROW_DELETED:
             return {
                 ...state,
                 data: [...state.data.filter((_, index) => index !== i)]
             };
 
-        case ROW_MOVED_UP:
+        case TYPES.ROW_MOVED_UP:
             if (i < 1 || i > state.data.length - 1) return state;
             return {
                 ...state,
@@ -74,7 +66,7 @@ export default function (state = initialState, action) {
                 ]
             };
 
-        case ROW_MOVED_DOWN:
+        case TYPES.ROW_MOVED_DOWN:
             if (i < 0 || i > state.data.length - 2) return state;
             return {
                 ...state,
@@ -86,7 +78,7 @@ export default function (state = initialState, action) {
                 ]
             };
 
-        case COL_SORTED_UP:
+        case TYPES.COL_SORTED_UP:
             if (i < 0 || i > propNames.length - 1) return state;
 
             return {
@@ -96,7 +88,7 @@ export default function (state = initialState, action) {
                 ]
             };
 
-        case COL_SORTED_DOWN:
+        case TYPES.COL_SORTED_DOWN:
             if (i < 0 || i > propNames.length - 1) return state;
 
             return {
@@ -104,6 +96,13 @@ export default function (state = initialState, action) {
                 data: [
                     ...state.data.sort((a, b) => a[propNames[i]] > b[propNames[i]] ? 1 : -1)
                 ]
+            };
+
+        case TYPES.TEXT_EXPORTED_TO_TABLE:
+            const {data} = action;
+            return {
+                ...state,
+                data: [...data]
             };
 
         default:

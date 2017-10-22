@@ -21,23 +21,31 @@ class TableView extends Component {
         onSortDown: PropTypes.func.isRequired,
     };
 
-    static editRowValues(name = '', value = '') {
-        name = prompt('Введите значение для name', name);
-        value = prompt('Введите значение для value', value);
-
-        return {name: name, value: value};
+    static editValue(propName, propValue = '') {
+        return prompt(`Введите значение для ${propName}`, propValue);
     }
 
     handleAppendButton = () => {
-        this.props.onAppendRow(TableView.editRowValues());
+        this.props.onAppendRow(
+            TableView.editValue('name'),
+            TableView.editValue('value')
+        );
     };
 
     handleEditButton = (i, name, value) => {
-        this.props.onEditRow({i, ...TableView.editRowValues(name, value)});
+        this.props.onEditRow(
+            i,
+            TableView.editValue('name', name),
+            TableView.editValue('value', value)
+        );
     };
 
     handleInsertButton = (i, name, value) => {
-        this.props.onInsertRow({i, ...TableView.editRowValues(name, value)});
+        this.props.onInsertRow(
+            i,
+            TableView.editValue('name', name),
+            TableView.editValue('value', value)
+        );
     };
 
     renderRows() {
@@ -60,15 +68,15 @@ class TableView extends Component {
                             insert
                         </button>
                         <button className="move-up-button"
-                                onClick={onMoveUpRow.bind(this, {i})}>
+                                onClick={onMoveUpRow.bind(this, i)}>
                             move up
                         </button>
                         <button className="move-down-button"
-                                onClick={onMoveDownRow.bind(this, {i})}>
+                                onClick={onMoveDownRow.bind(this, i)}>
                             move down
                         </button>
                         <button className="delete-button"
-                                onClick={onDeleteRow.bind(this, {i})}>
+                                onClick={onDeleteRow.bind(this, i)}>
                             delete
                         </button>
                     </td>
@@ -85,43 +93,43 @@ class TableView extends Component {
                 <table>
                     <caption>{this.props.title}</caption>
                     <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>
-                            <button className="sort-up-button"
-                                    onClick={onSortUp.bind(this, {i: 0})}>
-                                sort up
-                            </button>
-                            <button className="sort-down-button"
-                                    onClick={onSortDown.bind(this, {i: 0})}>
-                                sort down
-                            </button>
-                            name
-                        </th>
-                        <th>
-                            <button className="sort-up-button"
-                                    onClick={onSortUp.bind(this, {i: 1})}>
-                                sort up
-                            </button>
-                            <button className="sort-down-button"
-                                    onClick={onSortDown.bind(this, {i: 1})}>
-                                sort down
-                            </button>
-                            value
-                        </th>
-                        <th>actions</th>
-                    </tr>
+                        <tr>
+                            <th>id</th>
+                            <th>
+                                <button className="sort-up-button"
+                                        onClick={onSortUp.bind(this, 0)}>
+                                    sort up
+                                </button>
+                                <button className="sort-down-button"
+                                        onClick={onSortDown.bind(this, 0)}>
+                                    sort down
+                                </button>
+                                name
+                            </th>
+                            <th>
+                                <button className="sort-up-button"
+                                        onClick={onSortUp.bind(this, 1)}>
+                                    sort up
+                                </button>
+                                <button className="sort-down-button"
+                                        onClick={onSortDown.bind(this, 1)}>
+                                    sort down
+                                </button>
+                                value
+                            </th>
+                            <th>actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {this.renderRows()}
+                        {this.renderRows()}
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <td/>
-                        <td/>
-                        <td/>
-                        <td/>
-                    </tr>
+                        <tr>
+                            <td/>
+                            <td/>
+                            <td/>
+                            <td/>
+                        </tr>
                     </tfoot>
                 </table>
                 <button className="append-button" onClick={this.handleAppendButton}>

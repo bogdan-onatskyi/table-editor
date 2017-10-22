@@ -1,9 +1,4 @@
-import {
-    TEXT_LOADED_FROM_TABLE,
-    TEXT_SAVED_TO_TABLE,
-    TEXT_EDITED,
-    TEXT_PARSE_FAILED,
-} from '../actions/types';
+import * as TYPES from '../actions/types';
 
 const initialState = {
     jsonStr: "",
@@ -12,26 +7,24 @@ const initialState = {
 
 export default function (state = initialState, action) {
 
-    if (action.props === undefined) return state;
+    const {type, str} = action;
 
-    const {str} = action.props;
-
-    switch (action.type) {
-        case TEXT_LOADED_FROM_TABLE:
+    switch (type) {
+        case TYPES.TEXT_IMPORTED_FROM_TABLE:
             return {
                 ...state,
                 jsonStr: str,
                 isCorrect: true
             };
 
-        case TEXT_EDITED:
+        case TYPES.TEXT_EDITED:
             return {
                 ...state,
                 jsonStr: str,
                 isCorrect: true
             };
 
-        case TEXT_PARSE_FAILED:
+        case TYPES.TEXT_PARSE_FAILED:
             return {
                 ...state,
                 jsonStr: str,

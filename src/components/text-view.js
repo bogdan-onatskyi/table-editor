@@ -11,8 +11,8 @@ class TextView extends Component {
         isCorrect: PropTypes.bool.isRequired,
         data: PropTypes.array.isRequired,
 
-        onLoadFromTable: PropTypes.func.isRequired,
-        onSaveToTable: PropTypes.func.isRequired,
+        onImportFromTable: PropTypes.func.isRequired,
+        onExportToTable: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
         onTextParseFailed: PropTypes.func.isRequired,
     };
@@ -24,37 +24,36 @@ class TextView extends Component {
             const dataArray = [] = JSON.parse(str); // todo fix Array of Objects
         }
         catch (error) {
-            onTextParseFailed({str});
+            onTextParseFailed(str);
             return;
         }
-        onEdit({str});
+        onEdit(str);
     };
 
-    handleSaveToTable = () => {
-        const {text, isCorrect, onSaveToTable} = this.props;
+    handleExportToTable = () => {
+        const {text, isCorrect, onExportToTable} = this.props;
         if (!isCorrect) return;
-        console.log(JSON.parse(text));
-        // todo fix
-        // onSaveToTable({str: JSON.parse(text)});
+        onExportToTable(JSON.parse(text));
     };
 
     render() {
-        const {text, data, isCorrect, onLoadFromTable, onSaveToTable} = this.props;
+        const {text, data, isCorrect, onImportFromTable} = this.props;
 
         return (
             <div>
                 <textarea name="text" id="text-id" cols="40" rows="15"
                           value={text}
                           onChange={this.handleChange}/>
-                <button className="load-from-table-button"
-                        onClick={onLoadFromTable.bind(this, {str: JSON.stringify(data, "", 2)})}>
-                    load from table
+                <button className="import-from-table-button"
+                        onClick={onImportFromTable.bind(this, JSON.stringify(data, "", 2))}>
+                    import from table
                 </button>
-                <button className="save-to-table-button"
+                <button className="export-to-table-button"
                         disabled={!isCorrect}
-                        onClick={this.handleSaveToTable}>
-                    save to table
+                        onClick={this.handleExportToTable}>
+                    export to table
                 </button>
+                <input type="file" id="file-reader"/>
             </div>
         );
     }
@@ -71,8 +70,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onLoadFromTable: bindActionCreators(textActions.textLoadedFromTable, dispatch),
-        onSaveToTable: bindActionCreators(textActions.textSavedToTable, dispatch),
+        onImportFromTable: bindActionCreators(textActions.textImportedFromTable, dispatch),
+        onExportToTable: bindActionCreators(textActions.textExportedToTable, dispatch),
         onEdit: bindActionCreators(textActions.textEdited, dispatch),
         onTextParseFailed: bindActionCreators(textActions.textParseFailed, dispatch),
     };
