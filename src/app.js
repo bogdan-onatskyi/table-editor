@@ -7,9 +7,14 @@ import TextView from './components/text-view';
 
 const store = configureStore();
 
+import 'jquery'
+import 'materialize-css'
+import 'materialize-css/dist/css/materialize.css'
+// import 'material-design-icons'
+
 const App = () => (
     <Provider store={store}>
-        <div>
+        <div className="container">
             <TableView/>
             <TextView/>
         </div>

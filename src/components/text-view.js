@@ -40,20 +40,22 @@ class TextView extends Component {
         const {text, data, isCorrect, onImportFromTable} = this.props;
 
         return (
-            <div>
-                <textarea name="text" id="text-id" cols="40" rows="15"
-                          value={text}
-                          onChange={this.handleChange}/>
-                <button className="import-from-table-button"
-                        onClick={onImportFromTable.bind(this, JSON.stringify(data, "", 2))}>
-                    import from table
-                </button>
-                <button className="export-to-table-button"
-                        disabled={!isCorrect}
-                        onClick={this.handleExportToTable}>
-                    export to table
-                </button>
-                <input type="file" id="file-reader"/>
+            <div className="row">
+                <div className="col s12">
+                    <textarea name="text" id="text-id" cols="40" rows="15"
+                              value={text}
+                              onChange={this.handleChange}/>
+                    <button className="import-from-table-button"
+                            onClick={onImportFromTable.bind(this, JSON.stringify(data, "", 2))}>
+                        import from table
+                    </button>
+                    <button className="export-to-table-button"
+                            disabled={!isCorrect}
+                            onClick={this.handleExportToTable}>
+                        export to table
+                    </button>
+                    <input type="file" id="file-reader"/>
+                </div>
             </div>
         );
     }

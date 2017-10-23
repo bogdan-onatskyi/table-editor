@@ -48,6 +48,13 @@ class TableView extends Component {
         );
     };
 
+    sortDirection = [0, 0];
+    handleSort = (i) => {
+        const {onSortUp, onSortDown} = this.props;
+        this.sortDirection[i] ? onSortDown(i) : onSortUp(i);
+        this.sortDirection[i] = 1 - this.sortDirection[i];
+    };
+
     renderRows() {
         const {data, onMoveUpRow, onMoveDownRow, onDeleteRow} = this.props;
 
@@ -59,25 +66,25 @@ class TableView extends Component {
                     <td>{name}</td>
                     <td>{value}</td>
                     <td>
-                        <button className="edit-button"
+                        <button className="edit-button btn-floating red"
                                 onClick={this.handleEditButton.bind(this, i, name, value)}>
-                            edit
+                            <i className="material-icons">edit</i>
                         </button>
-                        <button className="insert-button"
+                        <button className="insert-button btn-floating red"
                                 onClick={this.handleInsertButton.bind(this, i + 1, name, value)}>
-                            insert
+                            <i className="material-icons">add</i>
                         </button>
-                        <button className="move-up-button"
+                        <button className="move-up-button btn-floating red"
                                 onClick={onMoveUpRow.bind(this, i)}>
-                            move up
+                            <i className="material-icons">arrow_upward</i>
                         </button>
-                        <button className="move-down-button"
+                        <button className="move-down-button btn-floating red"
                                 onClick={onMoveDownRow.bind(this, i)}>
-                            move down
+                            <i className="material-icons">arrow_downward</i>
                         </button>
-                        <button className="delete-button"
+                        <button className="delete-button btn-floating red"
                                 onClick={onDeleteRow.bind(this, i)}>
-                            delete
+                            <i className="material-icons">delete</i>
                         </button>
                     </td>
                 </tr>
@@ -85,56 +92,50 @@ class TableView extends Component {
         }));
     };
 
-    render() {
-        const {onSortUp, onSortDown} = this.props;
-
+    renderTable() {
         return (
-            <div>
-                <table>
-                    <caption>{this.props.title}</caption>
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>
-                                <button className="sort-up-button"
-                                        onClick={onSortUp.bind(this, 0)}>
-                                    sort up
-                                </button>
-                                <button className="sort-down-button"
-                                        onClick={onSortDown.bind(this, 0)}>
-                                    sort down
-                                </button>
-                                name
-                            </th>
-                            <th>
-                                <button className="sort-up-button"
-                                        onClick={onSortUp.bind(this, 1)}>
-                                    sort up
-                                </button>
-                                <button className="sort-down-button"
-                                        onClick={onSortDown.bind(this, 1)}>
-                                    sort down
-                                </button>
-                                value
-                            </th>
-                            <th>actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderRows()}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td/>
-                            <td/>
-                            <td/>
-                            <td/>
-                        </tr>
-                    </tfoot>
-                </table>
-                <button className="append-button" onClick={this.handleAppendButton}>
-                    Добавить строку
-                </button>
+            <table className="highlight bordered centered">
+                <caption>{this.props.title}</caption>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>
+                        <i className="material-icons"
+                           onClick={this.handleSort.bind(this, 0)}>
+                            {this.sortDirection[0] ? "sort" : "add"}</i>
+                        name
+                    </th>
+                    <th>
+                        <i className="material-icons"
+                           onClick={this.handleSort.bind(this, 1)}>
+                            {this.sortDirection[1] ? "sort" : "add"}</i>
+                        value
+                    </th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>{this.renderRows()}</tbody>
+                <tfoot>
+                <tr>
+                    <td/>
+                    <td/>
+                    <td/>
+                    <td/>
+                </tr>
+                </tfoot>
+            </table>
+        );
+    }
+
+    render() {
+        return (
+            <div className="row">
+                <div className="col s12">
+                    {this.renderTable()}
+                    <button className="append-button" onClick={this.handleAppendButton}>
+                        Добавить строку
+                    </button>
+                </div>
             </div>
         );
     }
