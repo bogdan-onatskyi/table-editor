@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import * as textActions from '../actions/text-actions';
+import {
+    textImportedFromTable, textExportedToTable, textEdited, textParseFailed
+} from '../../actions/text-actions';
+
+import './text-view.scss';
 
 class TextView extends Component {
     static propTypes = {
@@ -21,7 +25,7 @@ class TextView extends Component {
         const {onEdit, onTextParseFailed} = this.props;
         const str = e.target.value;
         try {
-            const dataArray = [] = JSON.parse(str); // todo fix Array of Objects
+            const dataArray = [] = JSON.parse(str); // todo: check is it an Array of Objects
         }
         catch (error) {
             onTextParseFailed(str);
@@ -40,21 +44,19 @@ class TextView extends Component {
         const {text, data, isCorrect, onImportFromTable} = this.props;
 
         return (
-            <div className="row">
-                <div className="col s12">
-                    <textarea name="text" id="text-id" cols="40" rows="15"
-                              value={text}
-                              onChange={this.handleChange}/>
-                    <button className="import-from-table-button"
+            <div className="text-view col s12">
+                <textarea className="text-view__text" name="text" cols="40" rows="15"
+                          value={text} onChange={this.handleChange}/>
+
+                <div className="text-view__button-group">
+                    <button className="btn waves-effect waves-light"
                             onClick={onImportFromTable.bind(this, JSON.stringify(data, "", 2))}>
                         import from table
                     </button>
-                    <button className="export-to-table-button"
-                            disabled={!isCorrect}
+                    <button className="btn waves-effect waves-light" disabled={!isCorrect}
                             onClick={this.handleExportToTable}>
                         export to table
                     </button>
-                    <input type="file" id="file-reader"/>
                 </div>
             </div>
         );
@@ -72,10 +74,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onImportFromTable: bindActionCreators(textActions.textImportedFromTable, dispatch),
-        onExportToTable: bindActionCreators(textActions.textExportedToTable, dispatch),
-        onEdit: bindActionCreators(textActions.textEdited, dispatch),
-        onTextParseFailed: bindActionCreators(textActions.textParseFailed, dispatch),
+        onImportFromTable: bindActionCreators(textImportedFromTable, dispatch),
+        onExportToTable: bindActionCreators(textExportedToTable, dispatch),
+        onEdit: bindActionCreators(textEdited, dispatch),
+        onTextParseFailed: bindActionCreators(textParseFailed, dispatch),
     };
 }
 

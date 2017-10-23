@@ -1,21 +1,16 @@
 import * as TYPES from '../actions/types';
 
 const initialState = {
-    title: "Заголовок таблицы",
     data: [
         {name: "name1", value: "value1"},
         {name: "name2", value: "value2"},
         {name: "name3", value: "value3"},
         {name: "name4", value: "value4"},
-        {name: "name5", value: "value5"},
-        {name: "name6", value: "value6"},
     ]
 };
 
 export default function (state = initialState, action) {
-
-    const {type, i, name, value} = action;
-    const propNames = ['name', 'value'];
+    const {type, i, name, value, paramName} = action;
 
     switch (type) {
         case TYPES.ROW_EDITED:
@@ -79,23 +74,15 @@ export default function (state = initialState, action) {
             };
 
         case TYPES.COL_SORTED_UP:
-            if (i < 0 || i > propNames.length - 1) return state;
-
             return {
                 ...state,
-                data: [
-                    ...state.data.sort((a,b) => a[propNames[i]] > b[propNames[i]] ? -1 : 1)
-                ]
+                data: [...state.data.sort((a, b) => a[paramName] > b[paramName] ? -1 : 1)]
             };
 
         case TYPES.COL_SORTED_DOWN:
-            if (i < 0 || i > propNames.length - 1) return state;
-
             return {
                 ...state,
-                data: [
-                    ...state.data.sort((a, b) => a[propNames[i]] > b[propNames[i]] ? 1 : -1)
-                ]
+                data: [...state.data.sort((a, b) => a[paramName] > b[paramName] ? 1 : -1)]
             };
 
         case TYPES.TEXT_EXPORTED_TO_TABLE:

@@ -1,0 +1,14 @@
+.table-editor {
+    &__table-view {
+        margin: 10px 0;
+    }
+
+    &__options {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__add-button {
+        margin: 0 auto;
+    }
+}

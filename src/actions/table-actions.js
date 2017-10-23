@@ -42,16 +42,16 @@ export function rowMovedDown(i) {
     };
 }
 
-export function colSortedUp(i) {
+export function colSortedUp(paramName) {
     return {
         type: TYPES.COL_SORTED_UP,
-        i
+        paramName
     };
 }
 
-export function colSortedDown(i) {
+export function colSortedDown(paramName) {
     return {
         type: TYPES.COL_SORTED_DOWN,
-        i
+        paramName
     };
 }

@@ -1,0 +1,30 @@
+.table-view {
+    &__header {
+        > tr {
+            text-transform: uppercase;
+        }
+        .sortable {
+            cursor: pointer;
+
+            .icon-sort {
+                &--asc {
+                    transform: scaleY(-1);
+                }
+            }
+        }
+    }
+    &__options-column {
+        text-align: right !important;
+    }
+}
+
+.option-buttons {
+    position: relative;
+    height: 60px;
+
+    .fixed-action-btn {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+}
