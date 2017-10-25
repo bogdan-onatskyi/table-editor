@@ -33,14 +33,19 @@ class TextView extends Component {
         onEdit(str);
     };
 
-    handleExportToTable = () => {
+    handleOnExportToTable = () => {
         const {text, isCorrect, onExportToTable} = this.props;
         if (!isCorrect) return;
         onExportToTable(JSON.parse(text));
     };
 
+    handleOnImportFromTable = () => {
+        const {data, onImportFromTable} = this.props;
+        onImportFromTable(JSON.stringify(data, "", 2))
+    };
+
     render() {
-        const {text, data, isCorrect, onImportFromTable} = this.props;
+        const {text, isCorrect} = this.props;
 
         return (
             <div className="text-view col s12">
@@ -49,11 +54,11 @@ class TextView extends Component {
 
                 <div className="text-view__button-group">
                     <button className="btn waves-effect waves-light"
-                            onClick={onImportFromTable.bind(this, JSON.stringify(data, "", 2))}>
+                            onClick={this.handleOnImportFromTable}>
                         import from table
                     </button>
                     <button className="btn waves-effect waves-light" disabled={!isCorrect}
-                            onClick={this.handleExportToTable}>
+                            onClick={this.handleOnExportToTable}>
                         export to table
                     </button>
                 </div>
