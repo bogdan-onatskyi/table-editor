@@ -43,7 +43,7 @@ class OptionsCell extends PureComponent {
 
 
     handleOnDeleteRowClick = () => {
-        if (!confirm("Вы уверены, что хотите удалить текущую строку")) return;
+        if (!confirm("Вы уверены, что хотите удалить текущую строку?")) return;
 
         const {rowModel, onDeleteRow} = this.props;
         onDeleteRow(rowModel.index);

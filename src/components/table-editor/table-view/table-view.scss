@@ -6,10 +6,8 @@
         .sortable {
             cursor: pointer;
 
-            .icon-sort {
-                &--asc {
-                    transform: scaleY(-1);
-                }
+            .icon-sort--asc {
+                transform: scaleY(-1);
             }
         }
     }
