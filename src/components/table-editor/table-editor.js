@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 import {rowAppended, colSortedUp, colSortedDown} from '../../actions/table-actions';
 import {askUser} from '../utils';
@@ -39,7 +38,7 @@ class TableEditor extends Component {
                     <TableView data={data} onSort={this.handleSort}/>
                 </div>
                 <div className="table-editor__options">
-                    <button className="table-editor__add-button btn waves-effect waves-light"
+                    <button className="btn waves-effect waves-light"
                             onClick={this.handleOnAppendRow}>Добавить строку
                     </button>
                 </div>
@@ -56,9 +55,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onAppendRow: bindActionCreators(rowAppended, dispatch),
-        onSortUp: bindActionCreators(colSortedUp, dispatch),
-        onSortDown: bindActionCreators(colSortedDown, dispatch),
+        onAppendRow: (name, value) => dispatch(rowAppended(name, value)),
+        onSortUp: (paramName) => dispatch(colSortedUp(paramName)),
+        onSortDown: (paramName) => dispatch(colSortedDown(paramName))
     };
 }
 

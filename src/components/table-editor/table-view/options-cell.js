@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import ActionButton from './action-button';
@@ -97,11 +96,11 @@ class OptionsCell extends PureComponent {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onEditRow: bindActionCreators(rowEdited, dispatch),
-        onInsertRow: bindActionCreators(rowInserted, dispatch),
-        onMoveUpRow: bindActionCreators(rowMovedUp, dispatch),
-        onMoveDownRow: bindActionCreators(rowMovedDown, dispatch),
-        onDeleteRow: bindActionCreators(rowDeleted, dispatch),
+        onEditRow: (i, name, value) => dispatch(rowEdited(i, name, value)),
+        onInsertRow: (i, name, value) => dispatch(rowInserted(i, name, value)),
+        onMoveUpRow: (i) => dispatch(rowMovedUp(i)),
+        onMoveDownRow: (i) => dispatch(rowMovedDown(i)),
+        onDeleteRow: (i) => dispatch(rowDeleted(i))
     };
 }
 

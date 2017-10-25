@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 import {
     textImportedFromTable, textExportedToTable, textEdited, textParseFailed
@@ -74,10 +73,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onImportFromTable: bindActionCreators(textImportedFromTable, dispatch),
-        onExportToTable: bindActionCreators(textExportedToTable, dispatch),
-        onEdit: bindActionCreators(textEdited, dispatch),
-        onTextParseFailed: bindActionCreators(textParseFailed, dispatch),
+        onImportFromTable: (str) => dispatch(textImportedFromTable(str)),
+        onExportToTable: (data) => dispatch(textExportedToTable(data)),
+        onEdit: (str) => dispatch(textEdited(str)),
+        onTextParseFailed: (str) => dispatch(textParseFailed(str))
     };
 }
 
