@@ -18,26 +18,6 @@ class TableView extends Component {
         sortedBy: null,
     };
 
-    renderRows() {
-        const {data} = this.props;
-
-        return (data.map((row, index) => {
-            const {name, value} = row;
-            const model = {index, ...row};
-
-            return (
-                <tr key={`row_${index}`}>
-                    <td>{index + 1}</td>
-                    <td>{name}</td>
-                    <td>{value}</td>
-                    <td>
-                        <OptionsCell rowModel={model}/>
-                    </td>
-                </tr>
-            );
-        }));
-    };
-
     handleOnNameSort = () => {
         this.setState(({isNameAsc}) => {
             this.props.onSort("name", isNameAsc);
@@ -70,19 +50,35 @@ class TableView extends Component {
                         <th>№</th>
                         <th className="sortable" onClick={this.handleOnNameSort}>
                             {sortedBy === 'name' &&
-                            <i className={cn("material-icons", {"icon-sort--asc": isNameAsc})}>sort</i>}
+                            <i className={cn({"icon-sort-asc": isNameAsc}, {"icon-sort-desc": !isNameAsc})}/>}
                             name
                         </th>
                         <th className="sortable" onClick={this.handleOnValueSort}>
                             {sortedBy === 'value' &&
-                            <i className={cn("material-icons", {"icon-sort--asc": isValueAsc})}>sort</i>}
+                            <i className={cn({"icon-sort-asc": isValueAsc}, {"icon-sort-desc": !isValueAsc})}/>}
                             value
                         </th>
-                        <th className="table-view__options-column">options</th>
+                        <th className="table-view__options-column">
+                            options
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {this.renderRows()}
+                    {this.props.data.map((row, index) => {
+                        const {name, value} = row;
+                        const model = {index, ...row};
+
+                        return (
+                            <tr key={`row_${index}`}>
+                                <td>{index + 1}</td>
+                                <td>{name}</td>
+                                <td>{value}</td>
+                                <td>
+                                    <OptionsCell rowModel={model}/>
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         );

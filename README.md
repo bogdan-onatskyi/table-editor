@@ -1,3 +1,3 @@
-# Тестовое задание № 2
+# React + Redux application
 
 ### https://bogdan-onatskyi.github.io/table-editor/

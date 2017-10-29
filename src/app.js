@@ -8,6 +8,8 @@ import TextView from './components/text-view/text-view';
 import 'materialize-css'
 import 'materialize-css/dist/css/materialize.css'
 
+import './app.scss';
+
 const store = configureStore();
 
 const App = () => (

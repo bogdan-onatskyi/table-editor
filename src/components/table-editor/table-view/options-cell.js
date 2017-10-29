@@ -63,28 +63,28 @@ class OptionsCell extends PureComponent {
         return (
             <div className="option-buttons">
                 <div className="fixed-action-btn horizontal">
-                    <a className="btn-floating btn-large waves-effect waves-light">
-                        <i className="material-icons">menu</i>
+                    <a className="btn-floating waves-effect waves-light">
+                        <i className="icon-menu"/>
                     </a>
                     <ul>
                         <li>
-                            <ActionButton title="Редактировать текущую строку" icon="edit"
+                            <ActionButton title="Редактировать текущую строку" icon="row-edit"
                                           onClick={this.handleOnEditRowClick}/>
                         </li>
                         <li>
-                            <ActionButton title="Вставить строку" icon="add"
+                            <ActionButton title="Вставить строку" icon="row-add"
                                           onClick={this.handleOnInsertRowClick}/>
                         </li>
                         <li>
-                            <ActionButton title="Переместить текущую строку вверх" icon="arrow_upward"
+                            <ActionButton title="Переместить текущую строку вверх" icon="row-up"
                                           onClick={this.handleOnMoveUpRowClick}/>
                         </li>
                         <li>
-                            <ActionButton title="Переместить текущую строку вниз" icon="arrow_downward"
+                            <ActionButton title="Переместить текущую строку вниз" icon="row-down"
                                           onClick={this.handleOnMoveDownRowClick}/>
                         </li>
                         <li>
-                            <ActionButton title="Удалить текущую строку" icon="delete"
+                            <ActionButton title="Удалить текущую строку" icon="row-delete"
                                           onClick={this.handleOnDeleteRowClick}/>
                         </li>
                     </ul>

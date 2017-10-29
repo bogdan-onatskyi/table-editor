@@ -42,16 +42,16 @@ export function rowMovedDown(i) {
     };
 }
 
-export function colSortedUp(paramName) {
+export function colSortedAsc(paramName) {
     return {
-        type: TYPES.COL_SORTED_UP,
+        type: TYPES.COL_SORTED_ASC,
         paramName
     };
 }
 
-export function colSortedDown(paramName) {
+export function colSortedDesc(paramName) {
     return {
-        type: TYPES.COL_SORTED_DOWN,
+        type: TYPES.COL_SORTED_DESC,
         paramName
     };
 }

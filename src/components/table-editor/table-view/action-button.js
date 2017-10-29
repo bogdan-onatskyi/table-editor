@@ -13,8 +13,10 @@ class ActionButton extends PureComponent {
 
         return (
             <button
-                className="btn-floating waves-effect waves-light" onClick={onClick} title={title}>
-                <i className="material-icons">{icon}</i>
+                className="btn-floating waves-effect waves-light"
+                onClick={onClick}
+                title={title}>
+                <i className={`icon-${icon}`}/>
             </button>
         );
     }

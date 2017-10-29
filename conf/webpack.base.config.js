@@ -11,7 +11,7 @@ export default new Config().merge({
         rules: [
             {
                 test: /.jsx?$/,
-                exclude: [/node_modules/, /src-tutor/],
+                exclude: [/node_modules/],
                 loader: 'babel-loader'
             },
             {

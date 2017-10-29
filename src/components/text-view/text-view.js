@@ -1,66 +1,122 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import csvParser from 'csv-parse';
+import csvStringifier from 'csv-stringify';
 
 import {
     textImportedFromTable, textExportedToTable, textEdited, textParseFailed
 } from '../../actions/text-actions';
 
+import TabView from "./tab";
+
 import './text-view.scss';
 
 class TextView extends Component {
     static propTypes = {
-        text: PropTypes.string.isRequired,
-        isCorrect: PropTypes.bool.isRequired,
+        str: PropTypes.shape({
+            JSON: PropTypes.string.isRequired,
+            CSV: PropTypes.string.isRequired
+        }),
+        isCorrect: PropTypes.shape({
+            JSON: PropTypes.bool.isRequired,
+            CSV: PropTypes.bool.isRequired
+        }),
+
         data: PropTypes.array.isRequired,
 
         onImportFromTable: PropTypes.func.isRequired,
         onExportToTable: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
-        onTextParseFailed: PropTypes.func.isRequired,
+        onTextParseFailed: PropTypes.func.isRequired
     };
 
-    handleChange = (e) => {
-        const {onEdit, onTextParseFailed} = this.props;
+    handleOnChangeJSON = (e) => {
         const str = e.target.value;
+        const {onEdit, onTextParseFailed} = this.props;
+
         try {
             const dataArray = [] = JSON.parse(str); // todo: check is it an Array of Objects
         }
         catch (error) {
-            onTextParseFailed(str);
+            onTextParseFailed(str, 'JSON');
             return;
         }
-        onEdit(str);
+        onEdit(str, 'JSON');
     };
 
-    handleOnExportToTable = () => {
-        const {text, isCorrect, onExportToTable} = this.props;
-        if (!isCorrect) return;
-        onExportToTable(JSON.parse(text));
+    handleOnChangeCSV = (e) => {
+        const str = e.target.value;
+        const {onEdit, onTextParseFailed} = this.props;
+
+        csvParser(str, (err) => {
+            if (err) onTextParseFailed(str, 'CSV');
+        });
+        onEdit(str, 'CSV');
     };
 
-    handleOnImportFromTable = () => {
+    handleOnImportFromTableToJSON = () => {
         const {data, onImportFromTable} = this.props;
-        onImportFromTable(JSON.stringify(data, "", 2))
+
+        onImportFromTable(JSON.stringify(data, null, 4), 'JSON');
+    };
+
+    handleOnImportFromTableToCSV = () => {
+        const {data, onImportFromTable} = this.props;
+        const columns = {
+            name: 'name',
+            value: 'value'
+        };
+
+        csvStringifier(data, {header: true, columns: columns, quoted: true},
+            (err, output) => {
+                onImportFromTable(output, 'CSV');
+            }
+        );
+    };
+
+    handleOnExportToTableFromJSON = () => {
+        const {str, isCorrect, onExportToTable} = this.props;
+        if (!isCorrect.JSON) return;
+
+        onExportToTable(JSON.parse(str.JSON));
+    };
+
+    handleOnExportToTableFromCSV = () => {
+        const {str, isCorrect, onExportToTable} = this.props;
+        if (!isCorrect.CSV) return;
+
+        csvParser(str.CSV, {columns: true},
+            (err, output) => {
+                if (output) onExportToTable(output, 'CSV');
+            }
+        );
     };
 
     render() {
-        const {text, isCorrect} = this.props;
+        const {str, isCorrect} = this.props;
 
         return (
             <div className="text-view col s12">
-                <textarea className="text-view__text" name="text" cols="40" rows="15"
-                          value={text} onChange={this.handleChange}/>
-
-                <div className="text-view__button-group">
-                    <button className="btn waves-effect waves-light"
-                            onClick={this.handleOnImportFromTable}>
-                        import from table
-                    </button>
-                    <button className="btn waves-effect waves-light" disabled={!isCorrect}
-                            onClick={this.handleOnExportToTable}>
-                        export to table
-                    </button>
+                <div className="row">
+                    <div className="col s12">
+                        <ul className="tabs">
+                            <li className="tab col s6"><a className="active" href="#json">JSON</a></li>
+                            <li className="tab col s6"><a href="#csv">CSV</a></li>
+                        </ul>
+                    </div>
+                    <div id="json">
+                        <TabView value={str.JSON} onChange={this.handleOnChangeJSON}
+                                 onImport={this.handleOnImportFromTableToJSON}
+                                 onExport={this.handleOnExportToTableFromJSON}
+                                 isCorrect={isCorrect.JSON}/>
+                    </div>
+                    <div id="csv">
+                        <TabView value={str.CSV} onChange={this.handleOnChangeCSV}
+                                 onImport={this.handleOnImportFromTableToCSV}
+                                 onExport={this.handleOnExportToTableFromCSV}
+                                 isCorrect={isCorrect.CSV}/>
+                    </div>
                 </div>
             </div>
         );
@@ -69,7 +125,7 @@ class TextView extends Component {
 
 function mapStateToProps(state) {
     return {
-        text: state.text.jsonStr,
+        str: state.text.str,
         isCorrect: state.text.isCorrect,
 
         data: state.table.data,
@@ -78,10 +134,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onImportFromTable: (str) => dispatch(textImportedFromTable(str)),
+        onImportFromTable: (str, format) => dispatch(textImportedFromTable(str, format)),
         onExportToTable: (data) => dispatch(textExportedToTable(data)),
-        onEdit: (str) => dispatch(textEdited(str)),
-        onTextParseFailed: (str) => dispatch(textParseFailed(str))
+        onEdit: (str, format) => dispatch(textEdited(str, format)),
+        onTextParseFailed: (str, format) => dispatch(textParseFailed(str, format))
     };
 }
 

@@ -1,7 +1,7 @@
-import webpack from 'webpack';
 import Config from 'webpack-config';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import path from 'path';
 
 export default new Config().extend('conf/webpack.base.config.js').merge({
@@ -32,7 +32,17 @@ export default new Config().extend('conf/webpack.base.config.js').merge({
     },
 
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({compress: {warnings: false}}),
+        new UglifyJSPlugin({
+            parallel: 4,
+            uglifyOptions: {
+                output: {
+                    comments: false,
+                    beautify: false
+                },
+                compress: true,
+                warnings: false
+            },
+        }),
         new ExtractTextPlugin({filename: 'styles.css'}),
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/g,

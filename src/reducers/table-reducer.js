@@ -5,12 +5,11 @@ const initialState = {
         {name: "name1", value: "value1"},
         {name: "name2", value: "value2"},
         {name: "name3", value: "value3"},
-        {name: "name4", value: "value4"},
     ]
 };
 
 export default function (state = initialState, action) {
-    const {type, i, name, value, paramName} = action;
+    const {type, i, name, value, paramName, data} = action;
 
     switch (type) {
         case TYPES.ROW_EDITED:
@@ -73,20 +72,19 @@ export default function (state = initialState, action) {
                 ]
             };
 
-        case TYPES.COL_SORTED_UP:
+        case TYPES.COL_SORTED_ASC:
             return {
                 ...state,
                 data: [...state.data.sort((a, b) => a[paramName] > b[paramName] ? -1 : 1)]
             };
 
-        case TYPES.COL_SORTED_DOWN:
+        case TYPES.COL_SORTED_DESC:
             return {
                 ...state,
                 data: [...state.data.sort((a, b) => a[paramName] > b[paramName] ? 1 : -1)]
             };
 
         case TYPES.TEXT_EXPORTED_TO_TABLE:
-            const {data} = action;
             return {
                 ...state,
                 data: [...data]

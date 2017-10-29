@@ -1,9 +1,10 @@
 import * as TYPES from './types';
 
-export function textImportedFromTable(str) {
+export function textImportedFromTable(str, format) {
     return {
         type: TYPES.TEXT_IMPORTED_FROM_TABLE,
-        str
+        str,
+        format
     };
 }
 
@@ -13,32 +14,19 @@ export function textExportedToTable(data) {
         data
     };
 }
-// todo fix
-export function textImportedFromFile(str) {
-    return {
-        type: TYPES.TEXT_IMPORTED_FROM_FILE,
-        str
-    };
-}
 
-// todo fix
-export function textExportedToFile(str) {
-    return {
-        type: TYPES.TEXT_EXPORTED_TO_FILE,
-        str
-    };
-}
-
-export function textEdited(str) {
+export function textEdited(str, format) {
     return {
         type: TYPES.TEXT_EDITED,
-        str
+        str,
+        format
     };
 }
 
-export function textParseFailed(str) {
+export function textParseFailed(str, format) {
     return {
         type: TYPES.TEXT_PARSE_FAILED,
-        str
+        str,
+        format
     };
 }
